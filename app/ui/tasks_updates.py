@@ -10,6 +10,7 @@ from app.services.tasks_service import (
     update_task,
 )
 from app.services.sprint_service import get_sprint_summary
+from app.ai.progress import extract_progress_draft
 
 
 STATUSES = [
@@ -310,35 +311,151 @@ def render_tasks_updates():
         else:
             st.info("No updates have been recorded for this task yet.")
 
-        # Add manual progress update
+        # AI-Assisted Progress Update
         st.divider()
-        st.markdown("### Add Manual Progress Update")
+        st.markdown("### AI-Assisted Progress Update")
+
         author_options = {
             user.display_name: user.id
             for user in users
         }
-        with st.form("manual_progress_form"):
-            selected_author = st.selectbox(
-                "Author",
-                list(author_options.keys()),
-                key="progress_author",
+
+        progress_text = st.text_area(
+            "Describe your progress",
+            placeholder=(
+                "Example: I finished the database implementation. "
+                "The API integration is still pending. "
+                "I need to test the authentication flow next."
+            ),
+            key="ai_progress_text",
+        )
+
+        selected_author = st.selectbox(
+            "Author",
+            list(author_options.keys()),
+            key="ai_progress_author",
+        )
+
+        if st.button("Extract Progress with AI"):
+            if not progress_text.strip():
+                st.warning("Please enter your progress description.")
+            else:
+                try:
+                    with st.spinner("Extracting progress..."):
+                        draft = extract_progress_draft(
+                            task_id=task_id,
+                            free_text=progress_text.strip(),
+                        )
+
+                    st.session_state["ai_progress_draft"] = {
+                        "task_id": task_id,
+                        "author_id": author_options[selected_author],
+                        "raw_text": progress_text.strip(),
+                        "completed_work": draft.completed_work,
+                        "remaining_work": draft.remaining_work,
+                        "blockers": draft.blockers,
+                        "next_step": draft.next_step or "",
+                    }
+
+                    st.success("Progress extracted successfully!")
+
+                except Exception as e:
+                    st.error(f"Could not extract progress: {e}")
+
+        # Review and edit the extracted draft
+        draft = st.session_state.get("ai_progress_draft")
+
+        if draft and draft["task_id"] == task_id:
+            st.markdown("### Review AI-Generated Draft")
+            st.info(
+                "Review and edit the extracted information before saving."
             )
-            completed_work = st.text_area(
-                "Completed Work",
-                key="completed_work",
+
+            # Initialize editable fields
+            st.session_state.setdefault(
+                "review_completed",
+                "\n".join(draft["completed_work"]),
             )
-            remaining_work = st.text_area(
-                "Remaining Work",
-                key="remaining_work",
+            st.session_state.setdefault(
+                "review_remaining",
+                "\n".join(draft["remaining_work"]),
             )
-            blockers = st.text_area(
-                "Blockers",
-                key="progress_blockers",
+            st.session_state.setdefault(
+                "review_blockers",
+                "\n".join(draft["blockers"]),
             )
-            next_step = st.text_area(
-                "Next Step",
-                key="next_step",
+            st.session_state.setdefault(
+                "review_next_step",
+                draft["next_step"],
             )
+
+            with st.form("review_progress_form"):
+                edited_completed = st.text_area(
+                    "Completed Work",
+                    key="review_completed",
+                )
+
+                edited_remaining = st.text_area(
+                    "Remaining Work",
+                    key="review_remaining",
+                )
+
+                edited_blockers = st.text_area(
+                    "Blockers",
+                    key="review_blockers",
+                )
+
+                edited_next_step = st.text_area(
+                    "Next Step",
+                    key="review_next_step",
+                )
+
+                confirm_save = st.form_submit_button(
+                    "Confirm and Save Progress"
+                )
+
+            if confirm_save:
+                try:
+                    add_update(
+                        author_id=draft["author_id"],
+                        entry_type="progress",
+                        task_id=task_id,
+                        raw_text=draft["raw_text"],
+                        completed_work=[
+                            line.strip()
+                            for line in edited_completed.splitlines()
+                            if line.strip()
+                        ],
+                        remaining_work=[
+                            line.strip()
+                            for line in edited_remaining.splitlines()
+                            if line.strip()
+                        ],
+                        blockers=[
+                            line.strip()
+                            for line in edited_blockers.splitlines()
+                            if line.strip()
+                        ],
+                        next_step=edited_next_step.strip() or None,
+                    )
+
+                    st.success("Progress update saved successfully!")
+
+                    # Clear the draft after successful saving
+                    del st.session_state["ai_progress_draft"]
+
+                    for key in [
+                        "review_completed",
+                        "review_remaining",
+                        "review_blockers",
+                        "review_next_step",
+                    ]:
+                        st.session_state.pop(key, None)
+
+                    st.rerun()
+
+                except Exception as e:
+                    st.error(f"Could not save progress: {e}")
 
         # Record decision
         st.markdown("### Record Decision")
