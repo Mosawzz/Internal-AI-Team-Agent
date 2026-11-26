@@ -10,7 +10,15 @@ from app.services.tasks_service import (
     update_task,
 )
 from app.services.sprint_service import get_sprint_summary
+from app.services.handoff_service import (
+    save_handoff,
+    get_handoffs,
+)
 from app.ai.progress import extract_progress_draft
+from app.ai.handoff import (
+    generate_handoff_draft,
+    render_handoff_draft,
+)
 
 
 STATUSES = [
@@ -491,6 +499,115 @@ def render_tasks_updates():
                         st.success("Decision saved successfully!")
                     except Exception as e:
                         st.error(f"Could not save decision: {e}")
+
+        # Handoff
+        st.divider()
+        st.markdown("### Handoff")
+
+        st.caption(
+            "Generate a handoff from recorded updates, review and edit it, "
+            "then approve and save."
+        )
+
+        handoff_key = f"handoff_draft_{task_id}"
+
+        if st.button("Generate Handoff Draft"):
+            try:
+                draft = generate_handoff_draft(task_id)
+
+                st.session_state[handoff_key] = {
+                    "content": render_handoff_draft(draft),
+                    "source_ids": draft.source_ids,
+                    "source_update_ids": [
+                        int(source_id.split("-", 1)[1])
+                        for source_id in draft.source_ids
+                        if source_id.startswith("U-")
+                    ],
+                }
+
+                st.success("Handoff draft generated for review.")
+
+            except Exception as e:
+                st.error(f"Could not generate handoff: {e}")
+
+        handoff_draft = st.session_state.get(handoff_key)
+
+        if handoff_draft:
+            st.markdown("#### Review Handoff Draft")
+
+            st.write(
+                "**Sources:** "
+                + (", ".join(handoff_draft["source_ids"]) or "None")
+            )
+
+            with st.form(f"handoff_review_form_{task_id}"):
+                edited_handoff = st.text_area(
+                    "Handoff Content",
+                    value=handoff_draft["content"],
+                    height=300,
+                    key=f"handoff_content_{task_id}",
+                )
+
+                handoff_author = st.selectbox(
+                    "Approved By",
+                    list(author_options.keys()),
+                    key=f"handoff_author_{task_id}",
+                )
+
+                approve_handoff = st.form_submit_button(
+                    "Approve and Save Handoff"
+                )
+
+            if approve_handoff:
+                if not edited_handoff.strip():
+                    st.warning("Handoff content cannot be empty.")
+
+                else:
+                    try:
+                        saved = save_handoff(
+                            task_id=task_id,
+                            author_id=author_options[handoff_author],
+                            content=edited_handoff.strip(),
+                            source_update_ids=handoff_draft[
+                                "source_update_ids"
+                            ],
+                        )
+
+                        st.success(
+                            f"Handoff H-{saved.id} saved as approved."
+                        )
+
+                        del st.session_state[handoff_key]
+                        st.rerun()
+
+                    except Exception as e:
+                        st.error(f"Could not save handoff: {e}")
+
+        st.markdown("#### Saved Handoffs")
+
+        handoffs = get_handoffs(task_id)
+
+        if handoffs:
+            for handoff in handoffs:
+                with st.container(border=True):
+                    st.markdown(
+                        f"**H-{handoff.id} — "
+                        f"{handoff.status.title()}**"
+                    )
+                    st.text(handoff.content)
+
+                    sources = ", ".join(
+                        f"U-{source_id}"
+                        for source_id in handoff.source_update_ids
+                    )
+
+                    st.caption(
+                        f"Author ID: {handoff.author_id} | "
+                        f"{handoff.created_at} | "
+                        f"Sources: {sources or 'None'}"
+                    )
+        else:
+            st.info("No handoffs have been saved for this task yet.")
 
         # Archive Task
         st.divider()
