@@ -1,11 +1,14 @@
 
 from datetime import date
 
-from app.db.database import SessionLocal
+from app.db.database import SessionLocal, init_db
 from app.db.models import User, Project, Sprint, Task, Update
 
 
 def seed_data():
+    # Ensure tables exist before any queries
+    init_db()
+
     db = SessionLocal()
 
     try:
