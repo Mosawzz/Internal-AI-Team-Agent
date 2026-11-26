@@ -27,24 +27,21 @@ from app.services.handoff_service import get_handoffs
 # Users Service Tests
 # -------------------------
 
-def test_list_users_returns_list():
+def test_list_users_returns_list(test_db):
     users = list_users()
 
     assert isinstance(users, list)
+    assert len(users) >= 1
 
 
-def test_get_existing_user():
-    users = list_users()
+def test_get_existing_user(test_db):
+    user = get_user(test_db["user_id"])
 
-    if not users:
-        pytest.skip("No seeded users found.")
-
-    user = get_user(users[0].id)
-
-    assert user.id == users[0].id
+    assert user.id == test_db["user_id"]
+    assert user.display_name == "Test User"
 
 
-def test_get_non_existing_user():
+def test_get_non_existing_user(test_db):
     with pytest.raises(NotFoundError):
         get_user(999999)
 
@@ -53,24 +50,21 @@ def test_get_non_existing_user():
 # Tasks Service Tests
 # -------------------------
 
-def test_list_tasks_returns_list():
+def test_list_tasks_returns_list(test_db):
     tasks = list_tasks()
 
     assert isinstance(tasks, list)
+    assert len(tasks) >= 1
 
 
-def test_get_existing_task():
-    tasks = list_tasks()
+def test_get_existing_task(test_db):
+    task = get_task(test_db["task_id"])
 
-    if not tasks:
-        pytest.skip("No seeded tasks found.")
-
-    task = get_task(tasks[0].id)
-
-    assert task.id == tasks[0].id
+    assert task.id == test_db["task_id"]
+    assert task.title == "Test Task"
 
 
-def test_get_non_existing_task():
+def test_get_non_existing_task(test_db):
     with pytest.raises(NotFoundError):
         get_task(999999)
 
@@ -84,39 +78,28 @@ def test_invalid_task_id():
 # Updates Service Tests
 # -------------------------
 
-def test_task_history_returns_list():
-    tasks = list_tasks()
-
-    if not tasks:
-        pytest.skip("No seeded tasks found.")
-
-    history = get_task_history(tasks[0].id)
+def test_task_history_returns_list(test_db):
+    history = get_task_history(test_db["task_id"])
 
     assert isinstance(history, list)
+    assert len(history) >= 1
 
 
-def test_empty_history_for_task():
-    tasks = list_tasks()
+def test_empty_history_for_task(test_db):
+    """Create a task with no updates and verify empty history."""
+    from app.services.tasks_service import create_task
 
-    if not tasks:
-        pytest.skip("No seeded tasks found.")
+    new_task = create_task(
+        title="Task Without Updates",
+        sprint_id=test_db["sprint_id"],
+        assignee_id=test_db["user_id"],
+    )
 
-    # Use a task with no updates if one exists
-    task_without_updates = None
-
-    for task in tasks:
-        if not get_task_history(task.id):
-            task_without_updates = task
-            break
-
-    if task_without_updates is None:
-        pytest.skip("All seeded tasks already have updates.")
-
-    assert get_task_history(task_without_updates.id) == []
+    assert get_task_history(new_task.id) == []
 
 
-def test_search_updates_returns_list():
-    results = search_updates("database")
+def test_search_updates_returns_list(test_db):
+    results = search_updates("Initial")
 
     assert isinstance(results, list)
 
@@ -130,7 +113,7 @@ def test_invalid_search_limit():
 # Sprint Service Tests
 # -------------------------
 
-def test_sprint_summary():
+def test_sprint_summary(test_db):
     summary = get_sprint_summary()
 
     assert summary.sprint_id > 0
@@ -142,17 +125,12 @@ def test_sprint_summary():
 # Handoff Service Tests
 # -------------------------
 
-def test_get_handoffs_returns_list():
-    tasks = list_tasks()
-
-    if not tasks:
-        pytest.skip("No seeded tasks found.")
-
-    handoffs = get_handoffs(tasks[0].id)
+def test_get_handoffs_returns_list(test_db):
+    handoffs = get_handoffs(test_db["task_id"])
 
     assert isinstance(handoffs, list)
 
 
-def test_get_handoffs_for_missing_task():
+def test_get_handoffs_for_missing_task(test_db):
     with pytest.raises(NotFoundError):
         get_handoffs(999999)
