@@ -1,0 +1,2304 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.6, pytest-9.1.1, pluggy-1.6.0 -- C:\Program Files\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\ahmed\OneDrive\Documents\Depi_Proj\repo\Internal-AI-Team-Agent
+plugins: allure-pytest-2.16.2, anyio-4.15.1, langsmith-0.16.2, playwright-0.10.0
+collecting ... collected 53 items
+
+tests/test_agent.py::test_ask_agent_returns_final_ai_answer PASSED       [  1%]
+tests/test_agent.py::test_ask_agent_rejects_invalid_question[] PASSED    [  3%]
+tests/test_agent.py::test_ask_agent_rejects_invalid_question[   ] PASSED [  5%]
+tests/test_agent.py::test_ask_agent_rejects_invalid_question[None] PASSED [  7%]
+tests/test_agent.py::test_ask_agent_rejects_invalid_question[123] PASSED [  9%]
+tests/test_agent.py::test_ask_agent_returns_fallback_when_no_ai_answer PASSED [ 11%]
+tests/test_agent.py::test_create_project_agent_requires_api_key PASSED   [ 13%]
+tests/test_agent.py::test_create_project_agent_requires_model PASSED     [ 15%]
+tests/test_agent.py::test_create_project_agent_success PASSED            [ 16%]
+tests/test_handoff.py::test_generate_handoff_draft_from_recorded_facts PASSED [ 18%]
+tests/test_handoff.py::test_generate_handoff_draft_leaves_missing_information_empty PASSED [ 20%]
+tests/test_handoff.py::test_handoff_source_ids_match_task_history PASSED [ 22%]
+tests/test_handoff.py::test_generating_handoff_does_not_change_task_state PASSED [ 24%]
+tests/test_handoff.py::test_handoff_is_not_saved_before_approval PASSED  [ 26%]
+tests/test_handoff.py::test_save_handoff_persists_approved_reviewed_content PASSED [ 28%]
+tests/test_handoff.py::test_save_handoff_rejects_sources_from_another_task PASSED [ 30%]
+tests/test_integration.py::test_handoff_flow_is_traceable_to_source_updates PASSED [ 32%]
+tests/test_progress.py::test_extract_progress_success PASSED             [ 33%]
+tests/test_progress.py::test_extract_progress_missing_fields PASSED      [ 35%]
+tests/test_progress.py::test_extract_progress_retry_success PASSED       [ 37%]
+tests/test_progress.py::test_extract_progress_invalid_output PASSED      [ 39%]
+tests/test_progress.py::test_extract_progress_model_unavailable PASSED   [ 41%]
+tests/test_service_writes.py::test_create_task PASSED                    [ 43%]
+tests/test_service_writes.py::test_create_task_with_invalid_status PASSED [ 45%]
+tests/test_service_writes.py::test_update_task PASSED                    [ 47%]
+tests/test_service_writes.py::test_add_update PASSED                     [ 49%]
+tests/test_service_writes.py::test_archive_done_task PASSED              [ 50%]
+tests/test_service_writes.py::test_cannot_archive_incomplete_task PASSED [ 52%]
+tests/test_service_writes.py::test_archive_does_not_delete_updates PASSED [ 54%]
+tests/test_service_writes.py::test_save_handoff PASSED                   [ 56%]
+tests/test_service_writes.py::test_get_handoffs PASSED                   [ 58%]
+tests/test_services.py::test_list_users_returns_list FAILED              [ 60%]
+tests/test_services.py::test_get_existing_user FAILED                    [ 62%]
+tests/test_services.py::test_get_non_existing_user FAILED                [ 64%]
+tests/test_services.py::test_list_tasks_returns_list FAILED              [ 66%]
+tests/test_services.py::test_get_existing_task FAILED                    [ 67%]
+tests/test_services.py::test_get_non_existing_task FAILED                [ 69%]
+tests/test_services.py::test_invalid_task_id PASSED                      [ 71%]
+tests/test_services.py::test_task_history_returns_list FAILED            [ 73%]
+tests/test_services.py::test_empty_history_for_task FAILED               [ 75%]
+tests/test_services.py::test_search_updates_returns_list FAILED          [ 77%]
+tests/test_services.py::test_invalid_search_limit PASSED                 [ 79%]
+tests/test_services.py::test_sprint_summary FAILED                       [ 81%]
+tests/test_services.py::test_get_handoffs_returns_list FAILED            [ 83%]
+tests/test_services.py::test_get_handoffs_for_missing_task FAILED        [ 84%]
+tests/test_tools.py::test_tool_list_tasks_success PASSED                 [ 86%]
+tests/test_tools.py::test_tool_get_task_history_success PASSED           [ 88%]
+tests/test_tools.py::test_tool_search_updates_success PASSED             [ 90%]
+tests/test_tools.py::test_tool_get_sprint_summary_success PASSED         [ 92%]
+tests/test_tools.py::test_tool_search_updates_rejects_limit_above_maximum PASSED [ 94%]
+tests/test_tools.py::test_tool_search_updates_rejects_boolean_limit PASSED [ 96%]
+tests/test_tools.py::test_tool_get_task_history_returns_error_for_missing_task PASSED [ 98%]
+tests/test_tools.py::test_tool_error_results_have_standard_structure PASSED [100%]
+
+================================== FAILURES ===================================
+________________________ test_list_users_returns_list _________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A63D39E0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FBB30>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A63D3F80>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AADC0>
+statement = 'SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role \nFROM users ORDER BY users.id ASC'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FBB30>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: users
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_list_users_returns_list():
+>       users = list_users()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\users_service.py:16: in list_users
+    .all()
+     ^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AADC0>
+statement = 'SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role \nFROM users ORDER BY users.id ASC'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FBB30>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: users
+E       [SQL: SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role 
+E       FROM users ORDER BY users.id ASC]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+___________________________ test_get_existing_user ____________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A64DC7A0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF320>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A63D3F80>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AB440>
+statement = 'SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role \nFROM users ORDER BY users.id ASC'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF320>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: users
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_existing_user():
+>       users = list_users()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\users_service.py:16: in list_users
+    .all()
+     ^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AB440>
+statement = 'SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role \nFROM users ORDER BY users.id ASC'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF320>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: users
+E       [SQL: SELECT users.id AS users_id, users.display_name AS users_display_name, users.role AS users_role 
+E       FROM users ORDER BY users.id ASC]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_________________________ test_get_non_existing_user __________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A642EF30>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642EC90>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A642E450>
+parameters = [(999999,)]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A761FA40>
+statement = 'SELECT users.id, users.display_name, users.role \nFROM users \nWHERE users.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642EC90>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: users
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_non_existing_user():
+        with pytest.raises(NotFoundError):
+>           get_user(999999)
+
+tests\test_services.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\users_service.py:39: in get_user
+    user = db.get(User, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:3934: in get
+    return self._get_impl(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:4121: in _get_impl
+    return db_load_fn(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\loading.py:704: in _load_on_pk_identity
+    session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A761FA40>
+statement = 'SELECT users.id, users.display_name, users.role \nFROM users \nWHERE users.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642EC90>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: users
+E       [SQL: SELECT users.id, users.display_name, users.role 
+E       FROM users 
+E       WHERE users.id = ?]
+E       [parameters: (999999,)]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+________________________ test_list_tasks_returns_list _________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A64DF4A0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF5F0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A64DF560>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AA5C0>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF5F0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_list_tasks_returns_list():
+>       tasks = list_tasks()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:209: in list_tasks
+    return query.order_by(Task.id).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AA5C0>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64DF5F0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.assignee_id AS tasks_assignee_id, tasks.status AS tasks_status, tasks.archived AS tasks_archived, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+E       FROM tasks 
+E       WHERE tasks.archived = 0 ORDER BY tasks.id]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+___________________________ test_get_existing_task ____________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A669BC20>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A66981D0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A64DF560>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6891040>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A66981D0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_existing_task():
+>       tasks = list_tasks()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:209: in list_tasks
+    return query.order_by(Task.id).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6891040>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A66981D0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.assignee_id AS tasks_assignee_id, tasks.status AS tasks_status, tasks.archived AS tasks_archived, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+E       FROM tasks 
+E       WHERE tasks.archived = 0 ORDER BY tasks.id]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_________________________ test_get_non_existing_task __________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A6699700>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A6699EE0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A6699B50>
+parameters = [(999999,)]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AABC0>
+statement = 'SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at \nFROM tasks \nWHERE tasks.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A6699EE0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_non_existing_task():
+        with pytest.raises(NotFoundError):
+>           get_task(999999)
+
+tests\test_services.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:167: in get_task
+    task = db.get(Task, task_id)
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:3934: in get
+    return self._get_impl(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:4121: in _get_impl
+    return db_load_fn(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\loading.py:704: in _load_on_pk_identity
+    session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64AABC0>
+statement = 'SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at \nFROM tasks \nWHERE tasks.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A6699EE0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at 
+E       FROM tasks 
+E       WHERE tasks.id = ?]
+E       [parameters: (999999,)]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_______________________ test_task_history_returns_list ________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A642EB40>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642DCD0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A64DF560>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A72A7B40>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642DCD0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_task_history_returns_list():
+>       tasks = list_tasks()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:209: in list_tasks
+    return query.order_by(Task.id).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A72A7B40>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A642DCD0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.assignee_id AS tasks_assignee_id, tasks.status AS tasks_status, tasks.archived AS tasks_archived, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+E       FROM tasks 
+E       WHERE tasks.archived = 0 ORDER BY tasks.id]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_________________________ test_empty_history_for_task _________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A63FB2C0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FB140>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A64DF560>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6C78040>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FB140>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_empty_history_for_task():
+>       tasks = list_tasks()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:209: in list_tasks
+    return query.order_by(Task.id).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6C78040>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A63FB140>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.assignee_id AS tasks_assignee_id, tasks.status AS tasks_status, tasks.archived AS tasks_archived, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+E       FROM tasks 
+E       WHERE tasks.archived = 0 ORDER BY tasks.id]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+______________________ test_search_updates_returns_list _______________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A64068A0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64043B0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A6407C80>
+parameters = [('%database%', '%database%', '%database%', '%database%', '%database%', '%database%', ...)]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6D26CC0>
+statement = 'SELECT updates.id AS updates_id, updates.task_id AS updates_task_id, updates.author_id AS updates_author_id, updates....pdates.content LIKE ? OR updates.rationale LIKE ? ORDER BY updates.created_at DESC, updates.id DESC\n LIMIT ? OFFSET ?'
+parameters = ('%database%', '%database%', '%database%', '%database%', '%database%', '%database%', ...)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64043B0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: updates
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_search_updates_returns_list():
+>       results = search_updates("database")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_services.py:119: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\updates_service.py:178: in search_updates
+    .all()
+     ^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A6D26CC0>
+statement = 'SELECT updates.id AS updates_id, updates.task_id AS updates_task_id, updates.author_id AS updates_author_id, updates....pdates.content LIKE ? OR updates.rationale LIKE ? ORDER BY updates.created_at DESC, updates.id DESC\n LIMIT ? OFFSET ?'
+parameters = ('%database%', '%database%', '%database%', '%database%', '%database%', '%database%', ...)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A64043B0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: updates
+E       [SQL: SELECT updates.id AS updates_id, updates.task_id AS updates_task_id, updates.author_id AS updates_author_id, updates.entry_type AS updates_entry_type, updates.raw_text AS updates_raw_text, updates.completed_work AS updates_completed_work, updates.remaining_work AS updates_remaining_work, updates.blockers AS updates_blockers, updates.next_step AS updates_next_step, updates.content AS updates_content, updates.rationale AS updates_rationale, updates.created_at AS updates_created_at 
+E       FROM updates 
+E       WHERE updates.raw_text LIKE ? OR updates.completed_work LIKE ? OR updates.remaining_work LIKE ? OR updates.blockers LIKE ? OR updates.next_step LIKE ? OR updates.content LIKE ? OR updates.rationale LIKE ? ORDER BY updates.created_at DESC, updates.id DESC
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('%database%', '%database%', '%database%', '%database%', '%database%', '%database%', '%database%', 10, 0)]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_____________________________ test_sprint_summary _____________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A62F19D0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62F2330>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A62F0B00>
+parameters = [('active', 1, 0)]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A72A6140>
+statement = 'SELECT sprints.id AS sprints_id, sprints.project_id AS sprints_project_id, sprints.goal AS sprints_goal, sprints.star...ate, sprints.status AS sprints_status \nFROM sprints \nWHERE sprints.status = ? ORDER BY sprints.id\n LIMIT ? OFFSET ?'
+parameters = ('active', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62F2330>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: sprints
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_sprint_summary():
+>       summary = get_sprint_summary()
+                  ^^^^^^^^^^^^^^^^^^^^
+
+tests\test_services.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\sprint_service.py:50: in get_sprint_summary
+    .first()
+     ^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2823: in first
+    return self.limit(1)._iter().first()  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A72A6140>
+statement = 'SELECT sprints.id AS sprints_id, sprints.project_id AS sprints_project_id, sprints.goal AS sprints_goal, sprints.star...ate, sprints.status AS sprints_status \nFROM sprints \nWHERE sprints.status = ? ORDER BY sprints.id\n LIMIT ? OFFSET ?'
+parameters = ('active', 1, 0)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62F2330>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: sprints
+E       [SQL: SELECT sprints.id AS sprints_id, sprints.project_id AS sprints_project_id, sprints.goal AS sprints_goal, sprints.start_date AS sprints_start_date, sprints.end_date AS sprints_end_date, sprints.status AS sprints_status 
+E       FROM sprints 
+E       WHERE sprints.status = ? ORDER BY sprints.id
+E        LIMIT ? OFFSET ?]
+E       [parameters: ('active', 1, 0)]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_______________________ test_get_handoffs_returns_list ________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A632C9E0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A632D100>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A64DF560>
+parameters = [()]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A63E7A40>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A632D100>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_handoffs_returns_list():
+>       tasks = list_tasks()
+                ^^^^^^^^^^^^
+
+tests\test_services.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\tasks_service.py:209: in list_tasks
+    return query.order_by(Task.id).all()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2768: in all
+    return self._iter().all()  # type: ignore[return-value]
+           ^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\query.py:2921: in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A63E7A40>
+statement = 'SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tas...at AS tasks_created_at, tasks.updated_at AS tasks_updated_at \nFROM tasks \nWHERE tasks.archived = 0 ORDER BY tasks.id'
+parameters = ()
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A632D100>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id AS tasks_id, tasks.sprint_id AS tasks_sprint_id, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.assignee_id AS tasks_assignee_id, tasks.status AS tasks_status, tasks.archived AS tasks_archived, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+E       FROM tasks 
+E       WHERE tasks.archived = 0 ORDER BY tasks.id]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+_____________________ test_get_handoffs_for_missing_task ______________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000265A62B98B0>
+dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62BBA40>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x00000265A6699B50>
+parameters = [(999999,)]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Unpack[TupleAny]]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        evt_handled: bool = False
+        try:
+            if self._has_events or self.engine._has_events:
+                for fn in self.dispatch.before_cursor_execute:
+                    str_statement, effective_parameters = fn(
+                        self,
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                        context.executemany,
+                    )
+    
+            if self._echo:
+                self._log_info(str_statement)
+    
+                stats = context._get_cache_stats()
+    
+                self._log_parameters(
+                    effective_parameters, stats, ismulti=context.executemany
+                )
+    
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64538C0>
+statement = 'SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at \nFROM tasks \nWHERE tasks.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62BBA40>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlite3.OperationalError: no such table: tasks
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    def test_get_handoffs_for_missing_task():
+        with pytest.raises(NotFoundError):
+>           get_handoffs(999999)
+
+tests\test_services.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+app\services\handoff_service.py:120: in get_handoffs
+    task = db.get(Task, task_id)
+           ^^^^^^^^^^^^^^^^^^^^^
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:3934: in get
+    return self._get_impl(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:4121: in _get_impl
+    return db_load_fn(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\loading.py:704: in _load_on_pk_identity
+    session.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2555: in execute
+    return self._execute_internal(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py:2445: in _execute_internal
+    compile_state_cls.orm_execute_statement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\context.py:357: in orm_execute_statement
+    result = conn.execute(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1494: in execute
+    return meth(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py:534: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1714: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1868: in _execute_context
+    return self._exec_single_context(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1996: in _exec_single_context
+    self._handle_dbapi_exception(
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:2351: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py:1977: in _exec_single_context
+    self.dialect.do_execute(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x00000265A4FAACC0>
+cursor = <sqlite3.Cursor object at 0x00000265A64538C0>
+statement = 'SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at \nFROM tasks \nWHERE tasks.id = ?'
+parameters = (999999,)
+context = <sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext object at 0x00000265A62BBA40>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: tasks
+E       [SQL: SELECT tasks.id, tasks.sprint_id, tasks.title, tasks.description, tasks.assignee_id, tasks.status, tasks.archived, tasks.created_at, tasks.updated_at 
+E       FROM tasks 
+E       WHERE tasks.id = ?]
+E       [parameters: (999999,)]
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+C:\Users\ahmed\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py:1192: OperationalError
+=========================== short test summary info ===========================
+FAILED tests/test_services.py::test_list_users_returns_list - sqlalchemy.exc....
+FAILED tests/test_services.py::test_get_existing_user - sqlalchemy.exc.Operat...
+FAILED tests/test_services.py::test_get_non_existing_user - sqlalchemy.exc.Op...
+FAILED tests/test_services.py::test_list_tasks_returns_list - sqlalchemy.exc....
+FAILED tests/test_services.py::test_get_existing_task - sqlalchemy.exc.Operat...
+FAILED tests/test_services.py::test_get_non_existing_task - sqlalchemy.exc.Op...
+FAILED tests/test_services.py::test_task_history_returns_list - sqlalchemy.ex...
+FAILED tests/test_services.py::test_empty_history_for_task - sqlalchemy.exc.O...
+FAILED tests/test_services.py::test_search_updates_returns_list - sqlalchemy....
+FAILED tests/test_services.py::test_sprint_summary - sqlalchemy.exc.Operation...
+FAILED tests/test_services.py::test_get_handoffs_returns_list - sqlalchemy.ex...
+FAILED tests/test_services.py::test_get_handoffs_for_missing_task - sqlalchem...
+======================= 12 failed, 41 passed in 16.11s ========================
