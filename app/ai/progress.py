@@ -59,7 +59,7 @@ def extract_progress_draft(
     free_text: str
 ) -> ProgressUpdateDraft:
 
-    if not isinstance(task_id, int) or task_id <= 0:
+    if not isinstance(task_id, int) or isinstance(task_id, bool) or task_id <= 0:
         raise ExtractionError("Invalid task ID.")
 
     if not isinstance(free_text, str) or not free_text.strip():

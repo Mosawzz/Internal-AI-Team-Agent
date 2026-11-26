@@ -30,6 +30,12 @@ STATUSES = [
 ]
 
 
+def _join_clean_lines(text: str) -> str | None:
+    """Normalize multiline review text into a newline-joined string or None."""
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    return "\n".join(lines) if lines else None
+
+
 def render_tasks_updates():
     st.title("Tasks & Updates")
     st.write("View tasks, filter them, and inspect their update history.")
@@ -364,6 +370,18 @@ def render_tasks_updates():
                         "blockers": draft.blockers,
                         "next_step": draft.next_step or "",
                     }
+                    st.session_state["review_completed"] = "\n".join(
+                        draft.completed_work
+                    )
+                    st.session_state["review_remaining"] = "\n".join(
+                        draft.remaining_work
+                    )
+                    st.session_state["review_blockers"] = "\n".join(
+                        draft.blockers
+                    )
+                    st.session_state["review_next_step"] = (
+                        draft.next_step or ""
+                    )
 
                     st.success("Progress extracted successfully!")
 
@@ -429,21 +447,9 @@ def render_tasks_updates():
                         entry_type="progress",
                         task_id=task_id,
                         raw_text=draft["raw_text"],
-                        completed_work=[
-                            line.strip()
-                            for line in edited_completed.splitlines()
-                            if line.strip()
-                        ],
-                        remaining_work=[
-                            line.strip()
-                            for line in edited_remaining.splitlines()
-                            if line.strip()
-                        ],
-                        blockers=[
-                            line.strip()
-                            for line in edited_blockers.splitlines()
-                            if line.strip()
-                        ],
+                        completed_work=_join_clean_lines(edited_completed),
+                        remaining_work=_join_clean_lines(edited_remaining),
+                        blockers=_join_clean_lines(edited_blockers),
                         next_step=edited_next_step.strip() or None,
                     )
 
